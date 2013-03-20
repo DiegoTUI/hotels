@@ -1,0 +1,13 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<resources>
+	<string name="map">Mapa</string>	
+	<string name="list">Lista</string>
+	<string name="currentLocation">Posición actual</string>
+	<string name="refresh">Actualizar</string>
+	<string name="hotelsList">Lista de hoteles</string>
+	<string name="loading">Cargando...</string>
+	<string name="youAreHere">Estás aquí</string>
+	<string name="addAnnotation">Añadir pincho</string>
+	<string name="synchronize">Sincronizar</string>
+	<string name="close">Cerrar</string>
+</resources>
