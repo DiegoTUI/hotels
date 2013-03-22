@@ -1,6 +1,6 @@
 (function(){
-	var Config = require('util/Config');
-	if (Config.TEST_MODE) {
+	var config = require('util/config');
+	if (config.TEST_MODE) {
 		Ti.API.info("entered the tests");
 		Ti.include(Titanium.Filesystem.resourcesDirectory + 'test/lib/jasmine-1.0.2.js');
 		Ti.include(Titanium.Filesystem.resourcesDirectory + 'test/lib/jasmine-titanium.js');

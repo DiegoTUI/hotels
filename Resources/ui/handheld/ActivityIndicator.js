@@ -2,7 +2,7 @@
  * @author dlafuente
  */
 
-function ActivityIndicator(){
+var ActivityIndicator = function () {
 	
 	var style;
 	if (Ti.Platform.name === 'iPhone OS'){

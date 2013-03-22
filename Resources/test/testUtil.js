@@ -6,7 +6,7 @@
 	
 	Ti.API.info("entered testUtil");
 	
-	var Util = require('util/Util');
+	var util = require('util/util');
 	
 	describe('RandomId', function() {
 		Ti.API.info("entered randomId");
@@ -20,10 +20,10 @@
 		});
 
 		it('should return different 8 chars strings', function() {
-			var lastId = Util.randomId();
+			var lastId = util.randomId();
 			expect(lastId).toHaveLength(8);
 			for (var i=0; i<10000; i++){
-				var newId = Util.randomId();
+				var newId = util.randomId();
 				expect(lastId).toHaveLength(8);
 				expect(newId).toNotEqual(lastId);
 				lastId = newId;
@@ -39,7 +39,7 @@
 			var json = generateRandomString(10);
 			var last = generateRandomString(3);
 			
-			var isolatedJSON = Util.isolateJSON(prev + "{" + json + "}" + last);
+			var isolatedJSON = util.isolateJSON(prev + "{" + json + "}" + last);
 			
 			expect(isolatedJSON).toEqual("{" + json + "}");
 		});	
@@ -48,7 +48,7 @@
 	function generateRandomString(timeseight){
 		var result = "";
 		for (var i=0; i<timeseight; i++){
-			result += Util.randomId();
+			result += util.randomId();
 		}
 		return result;
 	};

@@ -55,8 +55,12 @@ var MapView = function(region){
 		Ti.API.info("Entered updateUserAnnotation: " +latitude + " - " + longitude);
 		Ti.API.info("localized youAreHere: " + L('youAreHere'));
 		//remove the old annotetion
-		try{self.removeAnnotation(L('youAreHere'));}
-		catch (error) {Ti.API.info("Catched an error: " + error);};
+		try {
+			self.removeAnnotation(L('youAreHere'));
+		}
+		catch (error) {
+			Ti.API.info("Catched an error: " + error);
+		}
 		//add the current annotation
 		// Add initial annotation
 		Ti.API.info("About to add user annotation - latitude: " + latitude + " - longitude: " + longitude);
@@ -67,7 +71,6 @@ var MapView = function(region){
 			latitude: latitude,
 			longitude: longitude
 		}));
-		
 	}
 	
 	return self;

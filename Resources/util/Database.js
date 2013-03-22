@@ -2,9 +2,9 @@
  * @author dlafuente
  */
 
-var Database = new function(){
-	var Config = require('util/Config');
-	var testing = Config.TEST_MODE;
+var database = new function(){
+	var config = require('util/config');
+	var testing = config.TEST_MODE;
 	//self reference
 	var self = this;
 	//Open database
@@ -107,4 +107,4 @@ var Database = new function(){
 	return self;
 }
 
-module.exports = Database;
+module.exports = database;

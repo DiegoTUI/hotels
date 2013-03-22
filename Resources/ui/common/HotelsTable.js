@@ -2,7 +2,7 @@
  * @author dlafuente
  */
 
-function HotelsTable(){
+var HotelsTable = function () {
 	//self reference
 	var self =  Ti.UI.createTableView({
 		title: L('hotelRows'),

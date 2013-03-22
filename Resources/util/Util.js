@@ -2,7 +2,7 @@
  * @author dlafuente
  */
 
-var Util = new function(){
+var util = new function(){
 	//self reference
 	var self = this;
 	
@@ -35,4 +35,4 @@ var Util = new function(){
 	return self;
 }
 
-module.exports = Util;
+module.exports = util;

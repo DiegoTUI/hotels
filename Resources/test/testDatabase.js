@@ -5,30 +5,30 @@
 (function(){
 	Ti.API.info("entered testUtil");
 	
-	var Database = require('util/Database'); 
-	var Network = require('util/Network');
+	var database = require('util/database'); 
+	var network = require('util/network');
 	
-	describe('Populate Database', function() {
-		Ti.API.info("entered Populate Database");
+	describe('Populate database', function() {
+		Ti.API.info("entered Populate database");
 		it('should populate the database with data from the network', function(){
-			Database.deltest();
-			expect(Database.count(false)).toBe(0);
-			expect(Database.count(true)).toBe(0);
+			database.deltest();
+			expect(database.count(false)).toBe(0);
+			expect(database.count(true)).toBe(0);
 			populateDB();
 		
 			waitsFor(function(){
-				return Network.finished();
+				return network.finished();
 			});
 			
 			runs(function(){
-				expect(Database.count(false)).toBe(10);
+				expect(database.count(false)).toBe(10);
 			});	
 		});
 		
 	});
 	
-	describe("Test Database", function(){
-		Ti.API.info("entered Test Database");
+	describe("Test database", function(){
+		Ti.API.info("entered Test database");
 		
 		beforeEach(function(){
 			this.addMatchers({
@@ -39,11 +39,11 @@
 		});
 		
 		it("should have 10 elements not selected at the begining", function(){
-			expect(Database.count(false)).toBe(10);
+			expect(database.count(false)).toBe(10);
 		});
 		
 		it("should list, select and delete the elements correctly", function(){
-			var hotels = Database.list();
+			var hotels = database.list();
 			var hotelsSelected = hotels.filter(function(hotel){
 				return hotel.hasCheck == true;
 			});
@@ -59,8 +59,8 @@
 				lastValidCode = hotel.code;
 			});
 			//select the last hotel
-			Database.select(lastValidCode, true);
-			hotels = Database.list();
+			database.select(lastValidCode, true);
+			hotels = database.list();
 			hotelsSelected = hotels.filter(function(hotel){
 				return hotel.hasCheck == true;
 			});
@@ -71,8 +71,8 @@
 			expect(hotelsNotSelected.length).toBe(9);
 			expect(hotelsSelected.length).toBe(1);
 			//delete the last hotel
-			Database.del(lastValidCode);
-			hotels = Database.list();
+			database.del(lastValidCode);
+			hotels = database.list();
 			hotelsSelected = hotels.filter(function(hotel){
 				return hotel.hasCheck == true;
 			});
@@ -86,11 +86,11 @@
 	});
 	
 	describe("delete database", function(){
-		Ti.API.info("entered Delete Database");
+		Ti.API.info("entered Delete database");
 		it("should delete all tests elements in database", function(){
-			Database.deltest();
-			expect(Database.count(false)).toBe(0);
-			expect(Database.count(true)).toBe(0);
+			database.deltest();
+			expect(database.count(false)).toBe(0);
+			expect(database.count(true)).toBe(0);
 		});
 	});
 	
@@ -104,12 +104,12 @@
 			latitudeDelta: 1.550618
 		};
 		
-		Network.getHotels(region, function(result){
+		network.getHotels(region, function(result){
 			var hotels = result.response;
 			//get only the first 10 hotels
 			for (var i=0; i<10; i++){
 				var hotel = hotels[i];
-				Database.add({
+				database.add({
 					code: "TEST" + hotel.code,
 					name: hotel.name,
 					category: hotel.category,
