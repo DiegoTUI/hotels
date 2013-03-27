@@ -21,7 +21,7 @@ var config = new function(){
 	//load this default location into local properties
 	Ti.App.Properties.setObject('location', {latitude: self.LATITUDE_BASE, longitude: self.LONGITUDE_BASE});
 	//test mode
-	self.TEST_MODE = true;
+	self.TEST_MODE = false;
 	
 	return self;
 };
