@@ -31,8 +31,9 @@ var database = new function(){
 		openDB();
 		var query = testing ? 'SELECT COUNT(*) FROM hotels WHERE selected = ? AND code LIKE "TEST%"' : 'SELECT COUNT(*) FROM hotels WHERE selected = ?';
 		var row = db.execute(query, Number(selected));
+		var count = row.field(0);
 		db.close();
-		return row.field(0);
+		return count;
 	}
 	
 	//list elements of the DB

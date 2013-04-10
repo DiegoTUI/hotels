@@ -43,27 +43,32 @@ var Util = function (){
 	 * returns JSON string
 	 */
 	self.xmlToJson = function (xml, tab){
+		var ELEMENT_NODE = 1;
+		var ATTRIBUTE_NODE = 2;
+		var TEXT_NODE = 3;
+		var CDATA_SECTION_NODE = 4;
+		var DOCUMENT_NODE = 9;
 		var X = {
 			toObj: function(xml) {
 				var o = {};
-				if (xml.nodeType==1){//Ti.XML.Node.ELEMENT_NODE) {   // element node ..
+				if (xml.nodeType==ELEMENT_NODE){//Ti.XML.Node.ELEMENT_NODE) {   // element node ..
 					if (xml.attributes.length)   // element with attributes  ..
 						for (var i=0; i<xml.attributes.length; i++)
 							o["@"+xml.attributes.item(i).nodeName] = (xml.attributes.item(i).nodeValue||"").toString();
 					if (xml.firstChild) { // element has child nodes ..
 						var textChild=0, cdataChild=0, hasElementChild=false;
 						for (var n=xml.firstChild; n; n=n.nextSibling) {
-							if (n.nodeType==Ti.XML.Node.ELEMENT_NODE) hasElementChild = true;
-							else if (n.nodeType==Ti.XML.Node.TEXT_NODE && n.nodeValue.match(/[^ \f\n\r\t\v]/)) textChild++; // non-whitespace text
-							else if (n.nodeType==Ti.XML.Node.CDATA_SECTION_NODE) cdataChild++; // cdata section node
+							if (n.nodeType==ELEMENT_NODE) hasElementChild = true;
+							else if (n.nodeType==TEXT_NODE && n.nodeValue.match(/[^ \f\n\r\t\v]/)) textChild++; // non-whitespace text
+							else if (n.nodeType==CDATA_SECTION_NODE) cdataChild++; // cdata section node
 						}
 						if (hasElementChild) {
 							if (textChild < 2 && cdataChild < 2) { // structured element with evtl. a single text or/and cdata node ..
 								X.removeWhite(xml);
 								for (var n=xml.firstChild; n; n=n.nextSibling) {
-									if (n.nodeType == Ti.XML.Node.TEXT_NODE)  // text node
+									if (n.nodeType == TEXT_NODE)  // text node
 										o["#text"] = X.escape(n.nodeValue);
-									else if (n.nodeType == Ti.XML.Node.CDATA_SECTION_NODE)  // cdata node
+									else if (n.nodeType == CDATA_SECTION_NODE)  // cdata node
 										o["#cdata"] = X.escape(n.nodeValue);
 									else if (o[n.nodeName]) {  // multiple occurence of element ..
 										if (o[n.nodeName] instanceof Array)
@@ -133,7 +138,7 @@ var Util = function (){
 				else {
 					var asXml = function(n) {
 						var s = "";
-						if (n.nodeType == Ti.XML.Node.ELEMENT_NODE) {
+						if (n.nodeType == ELEMENT_NODE) {
 							s += "<" + n.nodeName;
 							for (var i=0; i<n.attributes.length;i++)
 								s += " " + n.attributes.item(i).nodeName + "=\"" + (n.attributes.item(i).nodeValue||"").toString() + "\"";
@@ -166,7 +171,7 @@ var Util = function (){
 			removeWhite: function(e) {
 				e.normalize();
 				for (var n = e.firstChild; n; ) {
-					if (n.nodeType == Ti.XML.Node.TEXT_NODE) {  // text node
+					if (n.nodeType == TEXT_NODE) {  // text node
 						if (!n.nodeValue.match(/[^ \f\n\r\t\v]/)) { // pure whitespace text node
 							var nxt = n.nextSibling;
 							e.removeChild(n);
@@ -175,7 +180,7 @@ var Util = function (){
 						else
 							n = n.nextSibling;
 					}
-					else if (n.nodeType == Ti.XML.Node.ELEMENT_NODE) {  // element node
+					else if (n.nodeType == ELEMENT_NODE) {  // element node
 						X.removeWhite(n);
 						n = n.nextSibling;
 					}
@@ -185,7 +190,7 @@ var Util = function (){
 				return e;
 			}
 		};
-		if (xml.nodeType == Ti.XML.Node.DOCUMENT_NODE) // document node
+		if (xml.nodeType == 9) //Ti.XML.Node.DOCUMENT_NODE) // document node
 			xml = xml.documentElement;
 		var json = X.toJson(X.toObj(X.removeWhite(xml)), xml.nodeName, "\t");
 		return "{\n" + tab + (tab ? json.replace(/\t/g, tab) : json.replace(/\t|\n/g, "")) + "\n}";
