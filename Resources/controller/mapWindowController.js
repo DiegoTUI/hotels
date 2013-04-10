@@ -27,7 +27,7 @@ var mapWindowController = new function(){
 	 */
 	//menus and/or rightNavButton
 	if (Ti.Platform.osname === 'iphone' || Ti.Platform.osname === 'mobileweb'){
-		var navRightButton = theWindow.getRightNavButton;
+		var navRightButton = self.theWindow.getRightNavButton;
 		navRightButton.addEventListener('click',function() {
 			updateUserLocation();
 		});

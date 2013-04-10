@@ -5,6 +5,8 @@
 var config = new function(){
 	//self reference
 	var self = this;
+	//Set geolocation purpose
+	Ti.Geolocation.purpose = "To show nearby hotels";
 	//System info
 	var osname = Ti.Platform.osname,
 		version = Ti.Platform.version,
