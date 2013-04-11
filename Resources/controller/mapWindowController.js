@@ -2,7 +2,7 @@
  * @author dlafuente
  */
 
-var mapWindowController = new function(){
+var MapWindowController = function(){
 	//self reference
 	var self = this;
 	//config
@@ -22,13 +22,18 @@ var mapWindowController = new function(){
 	//the window
 	var MapWindow = require('ui/' + middledir + '/MapWindow')
 	self.theWindow = new MapWindow(currentRegion);
+	//update hotel annotations
+	self.updateHotelAnnotations = function(hotelRows, removeAll){
+		self.theWindow.mapView.updateHotelAnnotations(hotelRows, removeAll);
+	}
 	/*
 	 * Actions, listeners and events
 	 */
 	//menus and/or rightNavButton
 	if (Ti.Platform.osname === 'iphone' || Ti.Platform.osname === 'mobileweb'){
 		var navRightButton = self.theWindow.getRightNavButton;
-		navRightButton.addEventListener('click',function() {
+		self.theWindow.navButton.addEventListener('click',function() {
+			Ti.API.info("Clicked navRightButton");
 			updateUserLocation();
 		});
 	}
@@ -40,6 +45,7 @@ var mapWindowController = new function(){
 				var menu = e.menu;
 				menu.findItem(1).setVisible(true);
 				menu.findItem(1).addEventListener('click', function(e) {
+					Ti.API.info("Clicked menu item 1");
 					updateUserLocation();
 				});
 			}
@@ -50,19 +56,10 @@ var mapWindowController = new function(){
 		self.theWindow.mapView.addEventListener('regionChanged', regionChanged);
 	else
 		self.theWindow.mapView.addEventListener('regionchanged', regionChanged);
-	//listener for hotels loaded
-	Ti.App.addEventListener("app:hotelsLoaded", function(e){
-		Ti.API.info("Capturing app:hotelsLoaded event: " + e.hotelRows.length);
-		self.theWindow.mapView.updateHotelAnnotations(e.hotelRows, true);
-	});
-	//listener to rows toggling 
-	Ti.App.addEventListener("app:rowToggled", function(e){
-		Ti.API.info("Capturing app:rowToggled event");
-		var rows = new Array(e.row);
-		self.theWindow.mapView.updateHotelAnnotations(rows, false);
-	});
+
 	//update location with the shake event
 	Ti.Gesture.addEventListener('shake',function(e){
+		Ti.API.info("Just shaked my crap");
 		updateUserLocation();
 	});
 	/*
@@ -115,9 +112,12 @@ var mapWindowController = new function(){
 	 * Initial actions
 	 */
 	//update user location
+	Ti.API.info("About to set Timeout for updateUserConnection");
 	setTimeout(updateUserLocation,1000);
 	
 	return self;
 }
+
+var mapWindowController = new MapWindowController();
 
 module.exports = mapWindowController;

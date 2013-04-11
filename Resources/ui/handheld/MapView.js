@@ -37,7 +37,7 @@ var MapView = function(region){
 			var hotelRow = hotelRows[i];
 			if (!removeAll)
 				self.removeAnnotation(hotelRow.title);
-			//Ti.API.info("about to add annotation: " + hotelRow.title + " - color: " + hotelRow.pincolor);
+			Ti.API.info("about to add annotation: " + hotelRow.title + " - color: " + hotelRow.pincolor);
 			self.addAnnotation(Ti.Map.createAnnotation({
 				animate: true,
 				pincolor: hotelRow.pincolor,

@@ -7,13 +7,15 @@ var MapWindow = function (region) {
 	var BaseWindow = require('ui/handheld/BaseWindow');
 	//self-reference
 	var self = new BaseWindow("map");
+	//right-nav button (null if non-existent)
+	self.navButton = null;
 	//menu and/or backbutton
 	if (Ti.Platform.osname === 'iphone') {
-		var button = Titanium.UI.createButton({
+		self.navButton = Titanium.UI.createButton({
 			title:L('currentLocation'),
 			style:Titanium.UI.iPhone.SystemButtonStyle.PLAIN
 		});
-		self.setRightNavButton(button);
+		self.setRightNavButton(self.navButton);
 	}
 	else if (Ti.Platform.osname === 'android'){
 		self.addEventListener('open', function() {
@@ -29,7 +31,6 @@ var MapWindow = function (region) {
 		});
 	}
 	else if ((Ti.Platform.osname === 'mobileweb')) {
-		Ti.API.info("Entered the focus event: " + self.getTitle());
 		var button = Titanium.UI.createButton({
 			title:L('currentLocation')
 		});

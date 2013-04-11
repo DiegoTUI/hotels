@@ -2,7 +2,7 @@
  * @author dlafuente
  */
 
-var listWindowController = new function(){
+var ListWindowController = function(){
 	//self reference
 	var self = this;
 	//network
@@ -13,6 +13,8 @@ var listWindowController = new function(){
 	var middledir = config.isTablet ? "handheld" : "handheld";
 	//the window
 	self.theWindow = require('ui/' + middledir + '/listWindow');
+	//current rows
+	self.currentRows = null;
 	/*
 	 * Actions, listeners and events
 	 */
@@ -38,9 +40,13 @@ var listWindowController = new function(){
 		//toggle check
 		e.row.hasCheck = !e.row.hasCheck; 
 		e.rowData.pincolor = e.row.hasCheck ? Titanium.Map.ANNOTATION_GREEN : Titanium.Map.ANNOTATION_PURPLE;
-		Ti.API.info("Toggled: " + e.rowData.title + "changed to: " + e.row.hasCheck);
+		Ti.API.info("Toggled: " + e.rowData.title + " changed to: " + e.row.hasCheck);
 		//notify
-		Ti.App.fireEvent("app:rowToggled", {row: e.rowData});
+		//Ti.App.fireEvent("app:rowToggled", {row: e.rowData});
+		Ti.App.fireEvent("app:rowToggled", {row: {title: e.rowData.title,
+													pincolor: e.rowData.pincolor,
+													latitude: e.rowData.latitude,
+													longitude: e.rowData.longitude}});
 	});
 
 	/*
@@ -57,7 +63,7 @@ var listWindowController = new function(){
 			var hotels = result.response;
 			Ti.API.info("Hotels returned: " + hotels.length);
 			//populate the table
-			var hotelRows = [];
+			self.currentRows = [];
 			hotels.forEach(function(hotel){
 				var row =Ti.UI.createTableViewRow({
 					title: hotel.name,
@@ -83,16 +89,18 @@ var listWindowController = new function(){
 			        font:{fontWeight:'bold',fontSize:'16sp'}
 			    });
 			    row.add(label);
-				hotelRows.push(row);
+				self.currentRows.push(row);
 			});
 			self.theWindow.activityIndicator.hide();
-			self.theWindow.table.setData(hotelRows);
+			self.theWindow.table.setData(self.currentRows);
 			Ti.API.info("Firing app:hotelsLoaded event");
-			Ti.App.fireEvent("app:hotelsLoaded", {hotelRows: hotelRows});
+			Ti.App.fireEvent("app:hotelsLoaded");
 		});
 	}
 	
 	return self;
 }
+
+var listWindowController = new ListWindowController();
 
 module.exports = listWindowController;

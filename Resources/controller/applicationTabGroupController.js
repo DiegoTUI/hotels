@@ -17,6 +17,17 @@ var applicationTabGroupController = new function() {
 	
 	Ti.API.info("Opening Application Tab Group");
 	new ApplicationTabGroup(windows).open();
+	//listener for hotels loaded
+	Ti.App.addEventListener("app:hotelsLoaded", function(){
+		Ti.API.info("Capturing app:hotelsLoaded event");
+		mapWindowController.updateHotelAnnotations (listWindowController.currentRows, true);
+	});
+	//listener to rows toggling 
+	Ti.App.addEventListener("app:rowToggled", function(e){
+		Ti.API.info("Capturing app:rowToggled event");
+		var rows = new Array(e.row);
+		mapWindowController.updateHotelAnnotations(rows, false);
+	});
 	
 	return self;
 }
