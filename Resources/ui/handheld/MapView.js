@@ -33,12 +33,14 @@ var MapView = function(region){
 		}
 		
 		//refresh annotations
+		var annRightButton = Ti.Platform.osname == 'iphone' ? Titanium.UI.iPhone.SystemButton.DISCLOSURE : "/images/street_view.png";
 		for (var i=0; i<hotelRows.length; i++){
 			var hotelRow = hotelRows[i];
 			if (!removeAll)
 				self.removeAnnotation(hotelRow.title);
 			Ti.API.info("about to add annotation: " + hotelRow.title + " - color: " + hotelRow.pincolor);
 			self.addAnnotation(Ti.Map.createAnnotation({
+				rightButton: annRightButton,
 				animate: true,
 				pincolor: hotelRow.pincolor,
 				title: hotelRow.title,

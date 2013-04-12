@@ -88,7 +88,9 @@ var ListWindowController = function(){
 			        letf: 5,
 			        font:{fontWeight:'bold',fontSize:'16sp'}
 			    });
-			    row.add(label);
+			    //add label if it's not an iPhone
+			    if (Ti.Platform.osname != "iphone")
+			    	row.add(label);
 				self.currentRows.push(row);
 			});
 			self.theWindow.activityIndicator.hide();

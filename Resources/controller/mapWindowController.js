@@ -56,7 +56,15 @@ var MapWindowController = function(){
 		self.theWindow.mapView.addEventListener('regionChanged', regionChanged);
 	else
 		self.theWindow.mapView.addEventListener('regionchanged', regionChanged);
-
+	//listener for the rightButton click in an annotation
+	self.theWindow.mapView.addEventListener("click", function(e){
+		//Ti.API.info("tapped on the map: " + e.clicksource);
+		if (e.clicksource == "rightButton" || e.clicksource == "rightPane"){
+			Ti.API.info("just clicked on the right button of an annotation - longitude: " + e.annotation.longitude + " - latitude: " + e.annotation.latitude);
+			var StreetViewWindow = require("ui/handheld/StreetViewWindow");
+			self.theWindow.containingTab.open(new StreetViewWindow(e.annotation.longitude, e.annotation.latitude));
+		}
+	});
 	//update location with the shake event
 	Ti.Gesture.addEventListener('shake',function(e){
 		Ti.API.info("Just shaked my crap");

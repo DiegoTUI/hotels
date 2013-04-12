@@ -10,4 +10,5 @@
 	<string name="addAnnotation">Añadir pincho</string>
 	<string name="synchronize">Sincronizar</string>
 	<string name="close">Cerrar</string>
+	<string name="streetView">Street View</string>
 </resources>
